@@ -2,7 +2,7 @@ import { Chart, linearTicks, type ChartSeries } from "./Chart"
 import { DebateCard } from "./DebateCard"
 import { useModelData } from "./useModelData"
 import type { ModelData } from "./types"
-import { Answer, ClaimBadge, Legend, QuestionBlock, Sources } from "./ui"
+import { Answer, ClaimBadge, Legend, QuestionBlock, safeHttpUrl, Sources } from "./ui"
 import { monthIndex } from "./util"
 
 const COLORS = {
@@ -34,6 +34,12 @@ function valueTicks(vals: number[], fmt: (n: number) => string) {
   return linearTicks(min, max).map((v) => ({ value: v, label: fmt(v) }))
 }
 
+// time-series points must be x-ascending so a late-appended row doesn't
+// make the polyline backtrack; scatter (non-temporal) is exempt
+function byX<T extends { x: number }>(pts: T[]): T[] {
+  return [...pts].sort((a, b) => a.x - b.x)
+}
+
 function fmtMinutes(v: number): string {
   if (v >= 1000) return `${Number((v / 1000).toFixed(1))}k`
   return String(Number(v.toFixed(2)))
@@ -47,22 +53,26 @@ function Q1({ d }: { d: ModelData["q1"] }) {
       id: "p50",
       color: COLORS.p50,
       kind: "line",
-      points: d.points.map((p) => ({
-        x: monthIndex(p.date),
-        y: p.p50_horizon_minutes,
-        label: `${p.model} (${p.date}) · p50 ${p.p50_horizon_minutes}min`,
-      })),
+      points: byX(
+        d.points.map((p) => ({
+          x: monthIndex(p.date),
+          y: p.p50_horizon_minutes,
+          label: `${p.model} (${p.date}) · p50 ${p.p50_horizon_minutes}min`,
+        })),
+      ),
     },
     {
       id: "p80",
       color: COLORS.p80,
       kind: "line",
       dashed: true,
-      points: d.points.map((p) => ({
-        x: monthIndex(p.date),
-        y: p.p80_horizon_minutes,
-        label: `${p.model} (${p.date}) · p80 ${p.p80_horizon_minutes}min`,
-      })),
+      points: byX(
+        d.points.map((p) => ({
+          x: monthIndex(p.date),
+          y: p.p80_horizon_minutes,
+          label: `${p.model} (${p.date}) · p80 ${p.p80_horizon_minutes}min`,
+        })),
+      ),
     },
   ]
   return (
@@ -97,11 +107,13 @@ function Q2({ d }: { d: ModelData["q2"] }) {
       id: "eci",
       color: COLORS.eci,
       kind: "step",
-      points: d.frontier_points.map((p) => ({
-        x: monthIndex(p.date),
-        y: p.score,
-        label: `${p.model} (${p.date}) · ECI ${p.score}`,
-      })),
+      points: byX(
+        d.frontier_points.map((p) => ({
+          x: monthIndex(p.date),
+          y: p.score,
+          label: `${p.model} (${p.date}) · ECI ${p.score}`,
+        })),
+      ),
     },
   ]
   return (
@@ -143,11 +155,13 @@ function Q3({ d }: { d: ModelData["q3"] }) {
     id: `tier-${i}`,
     color: tierColors[i % tierColors.length],
     kind: "line",
-    points: t.points.map((p) => ({
-      x: monthIndex(p.date),
-      y: p.price_usd_per_m_tokens,
-      label: `${p.model} (${p.date}) · $${p.price_usd_per_m_tokens}`,
-    })),
+    points: byX(
+      t.points.map((p) => ({
+        x: monthIndex(p.date),
+        y: p.price_usd_per_m_tokens,
+        label: `${p.model} (${p.date}) · $${p.price_usd_per_m_tokens}`,
+      })),
+    ),
   }))
 
   return (
@@ -199,9 +213,11 @@ function Q4({ d }: { d: ModelData["q4"] }) {
               <span className="reli-claim">{c.claim}</span>
             </div>
             <p className="reli-evidence">{c.evidence}</p>
-            <a className="reli-src" href={c.source} target="_blank" rel="noreferrer noopener">
-              来源 ↗
-            </a>
+            {safeHttpUrl(c.source) ? (
+              <a className="reli-src" href={safeHttpUrl(c.source)!} target="_blank" rel="noreferrer noopener">
+                来源 ↗
+              </a>
+            ) : null}
           </div>
         ))}
       </div>
@@ -218,11 +234,13 @@ function Q5({ cap, use }: { cap: ModelData["q5cap"]; use: ModelData["q5use"] }) 
       id: "lag",
       color: COLORS.lag,
       kind: "line",
-      points: cap.lag_series.map((p) => ({
-        x: monthIndex(p.date),
-        y: p.lag_months,
-        label: `${p.date} · 滞后 ${p.lag_months} 月`,
-      })),
+      points: byX(
+        cap.lag_series.map((p) => ({
+          x: monthIndex(p.date),
+          y: p.lag_months,
+          label: `${p.date} · 滞后 ${p.lag_months} 月`,
+        })),
+      ),
     },
   ]
   const useIdxs = use.share_series.map((p) => monthIndex(p.month))
@@ -231,11 +249,13 @@ function Q5({ cap, use }: { cap: ModelData["q5cap"]; use: ModelData["q5use"] }) 
       id: "usage",
       color: COLORS.usage,
       kind: "line",
-      points: use.share_series.map((p) => ({
-        x: monthIndex(p.month),
-        y: p.cn_model_share_pct,
-        label: `${p.month} · ${p.cn_model_share_pct}%`,
-      })),
+      points: byX(
+        use.share_series.map((p) => ({
+          x: monthIndex(p.month),
+          y: p.cn_model_share_pct,
+          label: `${p.month} · ${p.cn_model_share_pct}%`,
+        })),
+      ),
     },
   ]
   return (

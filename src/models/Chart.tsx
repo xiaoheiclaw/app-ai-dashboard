@@ -171,8 +171,11 @@ export function Chart({
           </text>
         )
       })}
-      {/* annotations (horizontal threshold lines) */}
-      {annotations.map((a, i) => {
+      {/* annotations (horizontal threshold lines) — drop non-positive on log
+          and any that fall outside the drawn y domain */}
+      {annotations
+        .filter((a) => (!isLog || a.y > 0) && a.y >= yMin && a.y <= yMax)
+        .map((a, i) => {
         const y = sy(a.y)
         return (
           <g key={`a${i}`}>
