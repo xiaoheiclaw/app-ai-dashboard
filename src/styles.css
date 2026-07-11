@@ -65,3 +65,134 @@ body {
   .header h1 { font-size: 22px; }
   .tab { padding: 7px 12px; font-size: 13px; }
 }
+
+/* ── models tab ────────────────────────────────────────────── */
+:root {
+  --claim-fact: #34d399;
+  --claim-reason: #5b8cff;
+  --claim-spec: #f59e0b;
+  --grid: #1c2333;
+}
+
+.models-status {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+.models-error { color: #f87171; }
+.models-intro { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 4px 0 18px; }
+
+.qblock {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 16px 14px;
+  margin-bottom: 16px;
+}
+.qblock-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.qblock-tag { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.4px; white-space: nowrap; }
+.qblock-q { margin: 0; font-size: 16px; line-height: 1.4; }
+.qblock-answer {
+  display: flex; gap: 8px; align-items: flex-start;
+  margin: 8px 0 12px; font-size: 13.5px; line-height: 1.65; color: var(--text);
+}
+.qblock-note { margin: 10px 0 4px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+.claim-badge {
+  flex: none;
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #0b0e14;
+}
+.claim-fact { background: var(--claim-fact); }
+.claim-reason { background: var(--claim-reason); color: #fff; }
+.claim-speculation { background: var(--claim-spec); }
+
+.chart-svg { width: 100%; height: auto; display: block; margin: 6px 0; }
+.chart-grid { stroke: var(--grid); stroke-width: 1; }
+.chart-axis-label { fill: var(--muted); font-size: 10px; }
+.chart-annotation-line { stroke: #f87171; stroke-width: 1; stroke-dasharray: 4 3; opacity: 0.8; }
+.chart-annotation-label { fill: #f87171; font-size: 10px; }
+.chart-dot { stroke: var(--bg); stroke-width: 0.5; }
+.chart-caption { font-size: 12px; color: var(--muted); margin: 12px 0 2px; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin: 4px 0 2px; }
+.legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); }
+.legend-swatch { width: 14px; height: 10px; border-radius: 3px; display: inline-block; }
+
+.sources { margin-top: 10px; }
+.sources summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+.sources ul { margin: 8px 0 0; padding-left: 18px; }
+.sources li { margin: 3px 0; }
+.sources a { color: var(--accent); font-size: 12px; text-decoration: none; word-break: break-all; }
+.sources a:hover { text-decoration: underline; }
+.two-sources { display: flex; gap: 20px; flex-wrap: wrap; }
+
+/* Q4 reliability */
+.why-no-curve {
+  font-size: 12.5px; line-height: 1.65; color: var(--muted);
+  background: rgba(248,113,113,0.06); border-left: 3px solid #f87171;
+  padding: 8px 12px; border-radius: 0 8px 8px 0; margin: 4px 0 12px;
+}
+.why-no-curve strong { color: #f87171; }
+.reli-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.reli-card { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+.reli-card-head { display: flex; gap: 8px; align-items: flex-start; }
+.reli-claim { font-size: 13px; font-weight: 600; line-height: 1.45; }
+.reli-evidence { font-size: 12px; color: var(--muted); line-height: 1.6; margin: 6px 0; }
+.reli-src { font-size: 11.5px; color: var(--accent); text-decoration: none; }
+
+/* Q5 dual chart */
+.q5-warn { font-size: 12.5px; color: var(--claim-spec); margin: 4px 0 10px; }
+.q5-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.q5-cell { min-width: 0; }
+
+/* Q6 hardware */
+.hw-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 14px; }
+.hw-card { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+.hw-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+.hw-name { font-size: 13px; font-weight: 700; }
+.hw-trend { font-size: 12px; color: var(--muted); line-height: 1.6; margin: 0; }
+.paradigm-wrap { overflow-x: auto; }
+.paradigm-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 560px; }
+.paradigm-table th, .paradigm-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+.paradigm-table th { color: var(--muted); font-weight: 600; font-size: 11px; }
+.pm-paradigm { font-weight: 600; white-space: nowrap; }
+.pm-evidence { color: var(--muted); }
+
+/* debates */
+.debates-section { margin-top: 26px; }
+.debates-title { font-size: 18px; margin: 0 0 4px; }
+.debates-sub { color: var(--muted); font-size: 12.5px; margin: 0 0 12px; }
+.debate {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
+}
+.debate > summary { cursor: pointer; display: flex; flex-direction: column; gap: 3px; }
+.debate-title { font-size: 14.5px; font-weight: 600; }
+.debate-affects { font-size: 11.5px; color: var(--muted); }
+.debate-body { margin-top: 12px; }
+.debate-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.debate-side { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+.side-a { border-left: 3px solid #f87171; }
+.side-b { border-left: 3px solid var(--claim-fact); }
+.side-head { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.side-a .side-head { color: #f87171; }
+.side-b .side-head { color: var(--claim-fact); }
+.side-pos { font-size: 12.5px; line-height: 1.55; margin: 0 0 6px; }
+.debate-side ul { margin: 0; padding-left: 16px; }
+.debate-side li { font-size: 11.5px; color: var(--muted); line-height: 1.55; margin: 3px 0; }
+.debate-view { margin-top: 12px; padding: 10px 12px; background: var(--bg); border-radius: 10px; }
+.debate-view-head { display: flex; gap: 8px; align-items: center; margin-bottom: 5px; }
+.debate-view-label { font-size: 12px; font-weight: 700; color: var(--accent); }
+.debate-view p { margin: 0; font-size: 12.5px; line-height: 1.6; }
+
+@media (max-width: 640px) {
+  .reli-cards, .hw-cards, .q5-grid, .debate-sides { grid-template-columns: 1fr; }
+  .qblock-q { font-size: 15px; }
+}
