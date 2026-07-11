@@ -1,0 +1,58 @@
+{
+  "as_of": "2026-07-11",
+  "question_part": "开源/中国模型能力差距(滞后月数口径)",
+  "sources": [
+    {
+      "name": "Epoch AI — ECI scores CSV (含 Organization/Country/Accessibility 字段, 更新至 2026-07-09)",
+      "url": "https://epoch.ai/data/eci_scores.csv"
+    },
+    {
+      "name": "Epoch AI — ECI leaderboard",
+      "url": "https://epoch.ai/eci"
+    },
+    {
+      "name": "Epoch AI — Benchmarking Hub",
+      "url": "https://epoch.ai/benchmarks"
+    }
+  ],
+  "method_note": "滞后月数为本看板从 Epoch ECI 原始分推导: 每当追赶方(开源/中国)前沿刷新时, 计算领先方(闭源/美国)前沿首次达到同等 ECI 水平的日期差。分数是 Epoch 事实, 月数是算术推导(推理)。注意: 2024-09 起开源前沿全部由中国模型构成, 故两条口径自 2024 末起高度重合。",
+  "lag_series": [
+    { "date": "2023-07", "lag_months": 4.1, "basis": "开源vs闭源: Llama 2-70B (ECI 113.7) 落后闭源前沿达标点 (GPT-4)" },
+    { "date": "2023-12", "lag_months": 8.9, "basis": "开源vs闭源: Mixtral 8x7B (118.2), 闭源达标点 GPT-4" },
+    { "date": "2024-04", "lag_months": 13.1, "basis": "开源vs闭源: Llama 3-70B (122.6), 闭源达标点 GPT-4 — GPT-4 长期领先造成峰值滞后" },
+    { "date": "2024-07", "lag_months": 2.4, "basis": "开源vs闭源: Llama 3.1-405B (129.0), 闭源达标点 Gemini 1.5 Flash" },
+    { "date": "2024-12", "lag_months": 3.4, "basis": "开源vs闭源(=中国vs美国): DeepSeek-V3 (133.0), 达标点 o1-mini" },
+    { "date": "2025-01", "lag_months": 1.5, "basis": "开源vs闭源(=中国vs美国): DeepSeek-R1 (139.7), 达标点 o1 — 历史最窄" },
+    { "date": "2025-07", "lag_months": 7.1, "basis": "开源vs闭源(=中国vs美国): Qwen3-235B-A22B-Thinking (144.8), 达标点 o3" },
+    { "date": "2025-11", "lag_months": 10.5, "basis": "开源vs闭源(=中国vs美国): Kimi K2 Thinking (146.0), 达标点 o3 — 推理范式追赶最慢段" },
+    { "date": "2026-02", "lag_months": 5.9, "basis": "开源vs闭源(=中国vs美国): Kimi K2.5 (148.2), 达标点 GPT-5" },
+    { "date": "2026-04", "lag_months": 5.0, "basis": "开源vs闭源(=中国vs美国): Kimi K2.6 (150.9), 达标点 Gemini 3 Pro" },
+    { "date": "2026-05", "lag_months": 6.0, "basis": "中国vs美国(闭源旗舰): Qwen3.7-Max (152.9), 达标点 Gemini 3 Pro" },
+    { "date": "2026-06", "lag_months": 6.9, "basis": "开源vs闭源: GLM-5.2 (151.6, 中国), 达标点 Gemini 3 Pro" },
+    { "date": "2026-07", "lag_months": 7.8, "basis": "两口径当前值(截至 2026-07-11): 开源/中国最高分距美国闭源前沿 (GPT-5.6 Sol 161.6) 首次达到该水平已 7.8 个月" }
+  ],
+  "latest_flagship_comparison": [
+    {
+      "cn_model": "Qwen3.7-Max (Alibaba, 闭源, ECI 152.92, 2026-05)",
+      "us_model": "GPT-5.6 Sol (OpenAI, ECI 161.61, 2026-07)",
+      "gap_note": "中国最高分 vs 美国最高分差 8.7 ECI 点; 美国前沿约 6 个月前 (Gemini 3 Pro, 2025-11) 已越过 Qwen3.7-Max 水平",
+      "claim_type": "事实(Epoch ECI)"
+    },
+    {
+      "cn_model": "GLM-5.2 (Z.ai/智谱, 开源, ECI 151.57, 2026-06)",
+      "us_model": "GPT-5.6 Sol (OpenAI, 闭源, ECI 161.61, 2026-07)",
+      "gap_note": "全球开源最高分即中国模型, 距闭源前沿 10.0 ECI 点 / 约 7 个月; 开源榜前 5 (GLM-5.2, Kimi K2.6/K2.7, DeepSeek-V4-Pro, Kimi K2.5) 全部为中国模型",
+      "claim_type": "事实(Epoch ECI)"
+    },
+    {
+      "cn_model": "Kimi K2.6 (Moonshot, 开源, ECI 150.9, 2026-04)",
+      "us_model": "Claude Fable 5 (Anthropic, ECI 160.29, 2026-06)",
+      "gap_note": "差 9.4 ECI 点; 美国第 2-3 名 (Claude Fable 5, GPT-5.5 Pro ~160) 也稳定高于中国全部型号",
+      "claim_type": "事实(Epoch ECI)"
+    }
+  ],
+  "current_answer": {
+    "text": "截至 2026-07, 开源与中国口径已合流(开源前沿全为中国模型), 对美国闭源前沿的滞后约 6-8 个月 / 9-10 ECI 点, 差距在 2025 年 R1 时刻的 1.5 个月低点后重新走阔并震荡于半年上下, 未见收敛为零的趋势。",
+    "claim_type": "事实(ECI 分数) + 推理(滞后月数与趋势为从 Epoch 数据推导)"
+  }
+}

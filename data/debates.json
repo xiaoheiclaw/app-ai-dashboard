@@ -1,0 +1,138 @@
+{
+  "as_of": "2026-07-11",
+  "debates": [
+    {
+      "id": "benchmark-contamination-saturation",
+      "title": "benchmark 污染/饱和:分数还能代表能力吗",
+      "affects": "q1(能力进度)、q3(模型差距)",
+      "side_a": {
+        "position": "静态 benchmark 已失效:污染普遍、头部模型分数挤在天花板,分数不再反映真实能力",
+        "evidence": [
+          "MMLU/MMLU-Pro/GPQA-Diamond 前沿模型聚在 88-94%,差异近噪声(sentryml/kili 2026 综述)",
+          "ICML 2025:20 种去污染策略无一能兼顾保真与抗污染",
+          "OpenAI 审计 SWE-Bench:所有前沿模型训练数据均有重叠,59.4% 难题的测试本身有缺陷",
+          "同一权重换 agent scaffold,SWE-bench 差 10-20pp;CLEAR 框架记录 benchmark 与真实部署有 37% 差距"
+        ]
+      },
+      "side_b": {
+        "position": "eval 体系在自我修复:抗污染/滚动 benchmark 仍有区分度,能力信号依然可读",
+        "evidence": [
+          "HLE 仍有大量 headroom(2026-05 无工具最高 46.9% vs 人类专家 ~90%),且推出 HLE-Rolling 修复质量问题(FutureHouse 曾指 ~30% 化学/生物题答案有误)",
+          "ARC-AGI-2 私有集 top 仅 24%、ARC-AGI-3 前沿 LLM <1%,远未饱和",
+          "LiveCodeBench/AIME 年更等活基准 + 私有 held-out 集成为社区共识做法",
+          "大规模训练(5x Chinchilla)可能按比例'遗忘'污染样本(反方论文)"
+        ]
+      },
+      "current_view": {
+        "text": "两边都对一半:旧静态基准确实死了,但活基准+私有集仍可用。投资含义是别用单一榜单分数定'差距收敛/拉开'的仓位判断,要看 HLE-Rolling/ARC/真实部署数据的合订本。",
+        "claim_type": "推理"
+      },
+      "updated": "2026-07-11"
+    },
+    {
+      "id": "scaling-multi-axis",
+      "title": "scaling 碎成多轴:预训练撞墙 vs 换轴继续",
+      "affects": "q6(硬件需求)、q1(能力进度)",
+      "side_a": {
+        "position": "预训练撞墙(数据墙),旧 scaling law 时代结束,能力增速将放缓",
+        "evidence": [
+          "2026 共识称高质量人类文本基本耗尽('Data Wall',digitalapplied/governance 论文 arXiv 2503.05705)",
+          "RL scaling 更像 sigmoid 而非幂律,存在内生饱和(ScaleRL, arXiv 2510.13786;2026 后续工作发现潜在饱和趋势)",
+          "对 RL 怎么 scale 的理解跟不上算力投入,'更多艺术而非科学'"
+        ]
+      },
+      "side_b": {
+        "position": "类比 Moore's law:单轴撞墙即换轴,预训练+RL 后训练+推理时算力三轴叠加,总能力仍在快速爬升",
+        "evidence": [
+          "RL 算力 o1→o3、Grok3→Grok4 各 >10x;RL 后训练已是各前沿实验室主 scaling 轴(digitalapplied 2026)",
+          "test-time compute 可替代训练算力,是不需重训的新轴(o1 范式;arXiv 2604.01411 证 overtraining+test-time scaling 反而 compute-optimal)",
+          "推理容量每年 3x+(Epoch/InferenceX),agentic 负载单任务算力 10-100x,推理轴远未饱和"
+        ]
+      },
+      "current_view": {
+        "text": "'撞墙'叙事对预训练单轴基本成立,但对总量错:算力需求没有塌,只是从训练 FLOPs 迁移到 RL rollout + 推理 token。对硬件多头这是利好推理侧/内存,对'能力停滞→capex 撤退'的空头论据尚不成立;真正尾部风险是 RL 轴也 sigmoid 饱和。",
+        "claim_type": "推理"
+      },
+      "updated": "2026-07-11"
+    },
+    {
+      "id": "china-benchmaxx",
+      "title": "中国模型 benchmaxx 质疑:追平是真是刷",
+      "affects": "q3(中美差距)、q4(成本曲线)",
+      "side_a": {
+        "position": "中国模型在可刷榜基准上追平,但在抗污染基准上仍落后,存在 benchmaxx 成分",
+        "evidence": [
+          "ARC-AGI-2 上中国前沿模型表现相当于西方前沿 6-8 个月前的水平(MindStudio 'China AI Gap' 分析)",
+          "厂商自报分数与独立评测不一致(如 Qwen2.5-Max 自称胜 DeepSeek-V3,独立复测更 mixed)",
+          "聚合榜上最强中国模型仍落后 OpenAI/Anthropic/Google 顶级闭源约 9 分(remoteopenclaw 2026 综述)"
+        ]
+      },
+      "side_b": {
+        "position": "gap 是真实且在收窄,'刷榜'是 2025 年初的否认叙事;成本效率优势是硬的",
+        "evidence": [
+          "开源权重 top5 中国占 4(GLM-5/Qwen3.5/Kimi K2.5/DeepSeek V4),收敛速度超几乎所有预测(abhs.in 2026 reality check)",
+          "以 10-15% 成本交付 GPT-4o 75-85% 质量,真实使用量(非榜单)大增",
+          "ARC 系自身也被批可被记忆/搜索攻击,单基准不足以定'刷榜'罪名"
+        ]
+      },
+      "current_view": {
+        "text": "折中收敛:真实差距 ≈ 6-8 个月(抗污染基准口径)而非零,benchmaxx 存在但不改变'快速收敛+成本碾压'主线。投资上利空纯前沿溢价叙事、利好推理/开源生态与 token 需求总量。",
+        "claim_type": "推理"
+      },
+      "updated": "2026-07-11"
+    },
+    {
+      "id": "gpu-depreciation",
+      "title": "GPU 折旧年限:5-6 年是财技还是合理",
+      "affects": "q5(经济性/capex 可持续)、q6(硬件周期)",
+      "side_a": {
+        "position": "(Burry/Chanos)真实经济寿命 2-3 年,5-6 年折旧虚增利润,2026-28 全行业少提 ~$176B 折旧",
+        "evidence": [
+          "Burry 2025-11-11 公开指控,Scion 曾持 ~$1.1B 名义 NVDA/PLTR put(后关闭基金)",
+          "Chanos 打 CoreWeave:即便按 10 年寿命账也不成立;CRWV 从 $187(2025-06)跌至 ~$72(2025-12),-61%",
+          "FP4/Blackwell→Rubin 代差实际在加速前沿训练卡淘汰(18-36 个月出前沿);Nadella 自认'不想被一代硬件套 4-5 年折旧'",
+          "同月同技术下 Amazon 缩短 GPU 折旧而 Meta 延长,$3.6B 级会计自由裁量暴露"
+        ]
+      },
+      "side_b": {
+        "position": "(Nvidia/多数会计分析)瀑布模型下旧卡降级做推理仍产收入 4-6 年,改估计合法非欺诈",
+        "evidence": [
+          "Nvidia 致分析师备忘录:客户实测利用率支持 4-6 年寿命,不类 Enron/WorldCom",
+          "ASC 250 下寿命调整属会计估计变更而非差错更正(Deep Quarry/NatLawReview)",
+          "A100(2020)至今仍在跑推理负载;推理需求爆发给旧卡续命(InferenceX 显示 H100/H200 仍满负荷有价)"
+        ]
+      },
+      "current_view": {
+        "text": "非欺诈但偏乐观:真实寿命介于两者之间,且随 FP4 代差扩大偏向缩短。关键跟踪点是旧卡推理残值(租价)与 hyperscaler 折旧政策再调整——任何一家缩短年限都是 EPS 下修+空头催化。",
+        "claim_type": "推理"
+      },
+      "updated": "2026-07-11"
+    },
+    {
+      "id": "memory-capex-squeeze",
+      "title": "内存超级周期:结构性再平衡 vs 又一轮周期顶",
+      "affects": "q6(硬件需求)、q5(capex 结构)",
+      "side_a": {
+        "position": "结构性:长上下文/KV cache/MoE 让内存成为持续瓶颈,memory 占 hyperscaler capex 2026 ~30-35%→2027 ~48%(CLSA),HBM 三厂 2026 售罄、议价权历史性转向存储厂",
+        "evidence": [
+          "SemiAnalysis:memory 占 hyperscaler capex 从 2023-24 ~8% 升至 2026 ~30%;CLSA 予 2027 ~48%",
+          "AI 芯片组件成本中 memory 占比 52%→63%(Epoch,2024Q1→2025Q4);HBM 市场 2026 ~$55-58B(+58% YoY,BofA/TrendForce)",
+          "MSFT FY26 capex $190B 中 ~$25B 来自组件涨价、Meta 因组件涨价上调 capex $10B——涨价已传导进大厂指引"
+        ]
+      },
+      "side_b": {
+        "position": "周期性:DRAM 价格 2025 年涨 246% 后,三厂正把产能从消费级 DRAM 大举转向 HBM(HBM 已占 23% DRAM 晶圆),供给响应+FP4 KV cache 等压缩技术会削峰,历史上存储超级周期从未不以过剩收场",
+        "evidence": [
+          "HBM 耗 3-4x 标准 DRAM 晶圆产能,三厂(>95% 产能)已系统性转产(tech-insider 2026)",
+          "NVFP4 KV cache/权重量化直接降单位 token 的 HBM 需求(NVIDIA 官方博客)",
+          "SK hynix 2026 F-1 上市募资扩产,行业性大扩产在路上(SEC filings)"
+        ]
+      },
+      "current_view": {
+        "text": "1-2 年内结构性紧缺是事实(售罄+涨价进大厂指引),但'这次不一样'不可全信:2027 后新产能落地+压缩技术起效,警惕经典存储周期顶。仓位上吃紧缺段、盯晶圆转产量与 HBM4 定价作为拐点信号。",
+        "claim_type": "推测"
+      },
+      "updated": "2026-07-11"
+    }
+  ]
+}

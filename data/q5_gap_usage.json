@@ -1,0 +1,37 @@
+{
+  "as_of": "2026-07-11",
+  "question_part": "中国/开源模型的使用侵蚀(OpenRouter token 份额口径)",
+  "sources": [
+    {"name": "OpenRouter Rankings(官方实时页)", "url": "https://openrouter.ai/rankings"},
+    {"name": "OpenRouter State of AI(100T token 使用研究)", "url": "https://openrouter.ai/state-of-ai"},
+    {"name": "CNBC 调查(2026-07-07, 经 byteiota 转述)", "url": "https://byteiota.com/chinese-ai-models-hit-46-of-us-api-tokens-what-developers-must-do-now/"},
+    {"name": "Yahoo Finance: Chinese AI Models Now Capture Up to 46% of US Enterprise Token Usage", "url": "https://finance.yahoo.com/technology/ai/articles/chinese-ai-models-now-capture-020440715.html"},
+    {"name": "OfficeChai: US 模型份额 70%→30%(2026-06-26)", "url": "https://officechai.com/ai/share-of-us-models-being-used-on-openrouter-has-collapsed-from-70-to-30-over-the-past-year/"},
+    {"name": "The Open Source Press: 中国开源如何登顶全球使用量(2026-06-22)", "url": "https://www.theopensourcepress.com/how-chinese-open-source-took-the-lead-in-global-ai-usage/"},
+    {"name": "DigitalApplied: OpenRouter Rankings April 2026", "url": "https://www.digitalapplied.com/blog/openrouter-rankings-april-2026-top-ai-models-data"},
+    {"name": "AICost: 2026-02 月度 token 排名", "url": "https://aicost.org/blog/openrouter-monthly-token-usage-ranking-2026-chinese-models-dominate"}
+  ],
+  "share_series": [
+    {"month": "2024-10", "cn_model_share_pct": 1.2, "basis": "OpenRouter 全平台 token 份额(报道回溯值)"},
+    {"month": "2025-03", "cn_model_share_pct": 10, "basis": "OpenRouter 全平台 token 份额,首破 10%(报道回溯值)"},
+    {"month": "2025-06", "cn_model_share_pct": 20, "basis": "近似值:同期美系(Google+OpenAI+Anthropic)约 70%,中国模型不足 20%(top-10 口径)"},
+    {"month": "2025-09", "cn_model_share_pct": 25, "basis": "OpenRouter 全平台 token 份额,Q3 2025 突破 25%(报道回溯值)"},
+    {"month": "2026-02", "cn_model_share_pct": 58, "basis": "临界周(2/9-15)口径:中国模型 4.12T vs 美系 2.94T token,占中美合计 58%;首次反超。top-10 口径同期约 61%"},
+    {"month": "2026-04", "cn_model_share_pct": 51, "basis": "OpenRouter 全平台 token 份额约 45-51%(全部 400+ 模型口径,非 top-10)"},
+    {"month": "2026-06", "cn_model_share_pct": 55, "basis": "近似值:美系份额已降至 ~30%,中国模型占多数;DeepSeek 单家 16.3-17.6%、Qwen 13.9%,美系最大单家 Anthropic ~14.8%"}
+  ],
+  "notable_facts": [
+    "美国公司自身用量:自 2026-02-08 起每周 >30% 的 token 跑在中国模型上,峰值 46%;此前 12 个月均值仅 11%,2025 上半年仅 4.5%(CNBC 2026-07-07 基于 OpenRouter 数据)",
+    "2026-02-09 当周首次反超:中国模型 4.12 万亿 token vs 美系 2.94 万亿;次周升至 5.16 万亿",
+    "2026-06 排行:DeepSeek V4 Flash 居所有模型 token 量第一,腾讯 Hy3 Preview 第二;top-10 中中国开源占 6 席(OfficeChai)",
+    "价格差是主驱动之一:中国开源模型普遍便宜 60-90%,如 DeepSeek V4 Flash $0.14/M 输入 token vs GPT-5.5 $5.00;编程/agent 负载已占平台 token 量过半",
+    "落地案例:Lindy 把 100% 流量从 Claude 迁到 DeepSeek;Coinbase 用中国模型跑 1200 个 agent、AI 开支砍半(CNBC 报道转述)",
+    "加速事件(单源待核):报道称 2026-06 美政府令 Anthropic 暂停其最强模型(Fable 5/Mythos 5)访问,企业被迫迁移",
+    "口径提醒:常被引用的 '61%' 是单周 top-10 模型口径,全平台(400+ 模型)口径更低(~45-51%,2026-04)"
+  ],
+  "caveat": "份额≠能力:token 份额混含价格(10-20x 价差)、分发(OpenRouter 只是一个路由平台,重价格敏感型开发者)、工作负载结构(agent/编程类高 token 消耗)与偏好因素;按收入计 Anthropic 等美系仍占大头,市场分化为大宗商品档与溢价档",
+  "current_answer": {
+    "text": "OpenRouter token 份额口径下,中国开源模型已从 2024-10 的 ~1% 升至 2026 年中的全平台约半数(美系降至 ~30%),连美国公司自身也有 30-46% 的 token 跑在中国模型上——使用层侵蚀已是既成事实,但主要由价格与 agent 负载驱动,不等同能力反超。",
+    "claim_type": "事实(份额数字)+推理(侵蚀性质判断)"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "as_of": "2026-07-11",
+  "question": "综合智能还在涨吗?",
+  "sources": [
+    {
+      "name": "Epoch AI — ECI scores CSV (官方原始数据, 2026-07-09 含最新模型)",
+      "url": "https://epoch.ai/data/eci_scores.csv"
+    },
+    {
+      "name": "Epoch AI — ECI leaderboard",
+      "url": "https://epoch.ai/eci"
+    },
+    {
+      "name": "Epoch AI — ECI 方法论文档",
+      "url": "https://epoch.ai/data/eci-documentation"
+    },
+    {
+      "name": "Epoch AI — ECI benchmark 明细 CSV (index_components 来源)",
+      "url": "https://epoch.ai/data/eci_benchmarks.csv"
+    },
+    {
+      "name": "epoch-research/eci-public (MIT, 模型拟合代码)",
+      "url": "https://github.com/epoch-research/eci-public"
+    }
+  ],
+  "index_name": "Epoch Capabilities Index (ECI)",
+  "index_notes": "50+ benchmark 拼接成的单一综合能力标尺; 标定: Claude 3.5 Sonnet = 130, GPT-5 = 150; 覆盖 2023 年以来 200+ 模型; 2026-07-01 起新增 13 个 eval(7 个已并入 ECI)",
+  "index_components": [
+    "ANLI", "APEX-Agents", "ARC AI2", "ARC-AGI", "ARC-AGI-2", "Aider polyglot",
+    "BBH", "Balrog", "CL-bench", "CL-bench Life", "CadEval", "Chess Puzzles",
+    "CritPt", "CursorBench", "Cybench", "DeepResearch Bench", "EBR-bench",
+    "ExploitBench", "Fiction.LiveBench", "FrontierMath (Private, Tiers 1-3 & 4)",
+    "GBAEval", "GDPval", "GPQA diamond", "GSM8K", "GSO-Bench", "GeoBench",
+    "HLE", "HellaSwag", "LAMBADA", "Lech Mazur Writing", "MATH level 5",
+    "MMLU", "OSWorld", "OSWorld 2.0", "OTIS Mock AIME 2024-2025", "OpenBookQA",
+    "PIQA", "PostTrainBench", "Remote Labor Index", "SWE-Bench verified",
+    "ScienceQA", "SimpleBench", "SimpleQA Verified", "Terminal Bench",
+    "The Agent Company", "TriviaQA", "VPCT", "WeirdML", "Winogrande"
+  ],
+  "frontier_points_notes": "SOTA 交替序列: 按 Epoch eci_scores.csv 的模型发布日期取 ECI 运行最大值, 每个点 = 一次前沿被刷新; 日期为 Epoch 记录的版本日期",
+  "frontier_points": [
+    { "date": "2023-02", "model": "LLaMA-65B", "score": 109.95 },
+    { "date": "2023-03", "model": "GPT-4", "score": 125.94 },
+    { "date": "2024-03", "model": "Claude 3 Opus", "score": 126.92 },
+    { "date": "2024-04", "model": "GPT-4 Turbo (Apr 2024)", "score": 127.6 },
+    { "date": "2024-05", "model": "Gemini 1.5 Flash (Sep 2024 version)", "score": 130.39 },
+    { "date": "2024-08", "model": "Grok-2", "score": 130.77 },
+    { "date": "2024-09", "model": "o1-mini", "score": 136.54 },
+    { "date": "2024-12", "model": "o1", "score": 142.67 },
+    { "date": "2024-12", "model": "o3", "score": 147.05 },
+    { "date": "2025-06", "model": "o3-pro", "score": 147.98 },
+    { "date": "2025-08", "model": "GPT-5", "score": 150.0 },
+    { "date": "2025-10", "model": "GPT-5 Pro", "score": 150.43 },
+    { "date": "2025-11", "model": "Gemini 3 Pro", "score": 153.23 },
+    { "date": "2025-12", "model": "GPT-5.2 Pro", "score": 154.56 },
+    { "date": "2026-02", "model": "GPT-5.3 Codex", "score": 155.5 },
+    { "date": "2026-03", "model": "GPT-5.4 Pro", "score": 157.71 },
+    { "date": "2026-04", "model": "GPT-5.5 Pro (xhigh)", "score": 160.56 },
+    { "date": "2026-07", "model": "GPT-5.6 Sol (pro, max)", "score": 161.61 }
+  ],
+  "current_answer": {
+    "text": "还在涨: 前沿 ECI 从 2025-08 的 150.0 (GPT-5) 升到 2026-07-09 的 161.61 (GPT-5.6 Sol), 近 12 个月 +11.6 点, 与前一年 (o3 147→GPT-5 150 再加 Gemini 3 段) 相比斜率未见放缓, 且刷新频率加密到约每 1-2 个月一次。",
+    "claim_type": "事实(数字来自 Epoch eci_scores.csv) + 推理(『未放缓』为斜率对比推断)"
+  }
+}

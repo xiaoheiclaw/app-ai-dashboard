@@ -1,0 +1,180 @@
+{
+  "as_of": "2026-07-11",
+  "question": "Agent 自主时长还在翻倍吗?",
+  "sources": [
+    "https://metr.org/time-horizons",
+    "https://metr.org/assets/benchmark_results_1_1.yaml",
+    "https://github.com/METR/eval-analysis-public"
+  ],
+  "points": [
+    {
+      "model": "GPT-2",
+      "date": "2019-02",
+      "p50_horizon_minutes": 0.05,
+      "p80_horizon_minutes": 0.01
+    },
+    {
+      "model": "GPT-3 (davinci-002)",
+      "date": "2020-05",
+      "p50_horizon_minutes": 0.14,
+      "p80_horizon_minutes": 0.06
+    },
+    {
+      "model": "GPT-3.5 Turbo Instruct",
+      "date": "2022-03",
+      "p50_horizon_minutes": 0.6,
+      "p80_horizon_minutes": 0.26
+    },
+    {
+      "model": "GPT-4 (0314)",
+      "date": "2023-03",
+      "p50_horizon_minutes": 3.99,
+      "p80_horizon_minutes": 0.89
+    },
+    {
+      "model": "GPT-4 (1106)",
+      "date": "2023-11",
+      "p50_horizon_minutes": 4.04,
+      "p80_horizon_minutes": 0.78
+    },
+    {
+      "model": "Claude 3 Opus",
+      "date": "2024-03",
+      "p50_horizon_minutes": 3.95,
+      "p80_horizon_minutes": 0.64
+    },
+    {
+      "model": "GPT-4 Turbo",
+      "date": "2024-04",
+      "p50_horizon_minutes": 3.73,
+      "p80_horizon_minutes": 0.93
+    },
+    {
+      "model": "GPT-4o",
+      "date": "2024-05",
+      "p50_horizon_minutes": 6.99,
+      "p80_horizon_minutes": 1.27
+    },
+    {
+      "model": "Claude 3.5 Sonnet (2024-06)",
+      "date": "2024-06",
+      "p50_horizon_minutes": 11.4,
+      "p80_horizon_minutes": 1.67
+    },
+    {
+      "model": "o1-preview",
+      "date": "2024-09",
+      "p50_horizon_minutes": 20.33,
+      "p80_horizon_minutes": 4.42
+    },
+    {
+      "model": "Claude 3.5 Sonnet (2024-10)",
+      "date": "2024-10",
+      "p50_horizon_minutes": 20.52,
+      "p80_horizon_minutes": 2.6
+    },
+    {
+      "model": "o1",
+      "date": "2024-12",
+      "p50_horizon_minutes": 38.83,
+      "p80_horizon_minutes": 7.09
+    },
+    {
+      "model": "Claude 3.7 Sonnet",
+      "date": "2025-02",
+      "p50_horizon_minutes": 60.39,
+      "p80_horizon_minutes": 12.09
+    },
+    {
+      "model": "o3",
+      "date": "2025-04",
+      "p50_horizon_minutes": 119.73,
+      "p80_horizon_minutes": 29.98
+    },
+    {
+      "model": "Claude Opus 4",
+      "date": "2025-05",
+      "p50_horizon_minutes": 100.37,
+      "p80_horizon_minutes": 20.43
+    },
+    {
+      "model": "Claude Opus 4.1",
+      "date": "2025-08",
+      "p50_horizon_minutes": 100.47,
+      "p80_horizon_minutes": 23.46
+    },
+    {
+      "model": "GPT-5",
+      "date": "2025-08",
+      "p50_horizon_minutes": 203.01,
+      "p80_horizon_minutes": 38.31
+    },
+    {
+      "model": "Claude Opus 4.5",
+      "date": "2025-11",
+      "p50_horizon_minutes": 292.99,
+      "p80_horizon_minutes": 49.43
+    },
+    {
+      "model": "Gemini 3 Pro",
+      "date": "2025-11",
+      "p50_horizon_minutes": 224.33,
+      "p80_horizon_minutes": 54.14
+    },
+    {
+      "model": "GPT-5.1 Codex Max",
+      "date": "2025-11",
+      "p50_horizon_minutes": 223.71,
+      "p80_horizon_minutes": 50.63
+    },
+    {
+      "model": "GPT-5.2",
+      "date": "2025-12",
+      "p50_horizon_minutes": 352.25,
+      "p80_horizon_minutes": 66.0
+    },
+    {
+      "model": "Claude Opus 4.6",
+      "date": "2026-02",
+      "p50_horizon_minutes": 718.81,
+      "p80_horizon_minutes": 69.87
+    },
+    {
+      "model": "GPT-5.3 Codex",
+      "date": "2026-02",
+      "p50_horizon_minutes": 349.53,
+      "p80_horizon_minutes": 54.74
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "date": "2026-02",
+      "p50_horizon_minutes": 384.15,
+      "p80_horizon_minutes": 89.8
+    },
+    {
+      "model": "GPT-5.4",
+      "date": "2026-03",
+      "p50_horizon_minutes": 341.74,
+      "p80_horizon_minutes": 53.88
+    },
+    {
+      "model": "Claude Mythos (early preview)",
+      "date": "2026-04",
+      "p50_horizon_minutes": 1044.78,
+      "p80_horizon_minutes": 185.91
+    }
+  ],
+  "doubling_time_days": 128.7,
+  "caveats": [
+    "METR 原文: 16 小时以上的测量在当前任务套件下不可靠(measurements above 16 hrs are unreliable with our current task suite)",
+    "doubling time 拟合排除 p50 中心估计 > 16 小时的点位(Claude Mythos early preview 1044.8 min 不参与拟合)",
+    "doubling_time_days=128.7 为 2023 年以来的拟合(95% CI 104.4–158.0 天);全时期 stitched 估计为 187.8 天",
+    "任务域限于软件工程/ML/网络安全类任务,时长为对人类专业者完成时间的外推",
+    "部分最新模型(Claude Opus 4.7, Grok 4.3, GPT-5.5)METR 尚未测量,曲线右端可能低估当前 SOTA",
+    "各点位置信区间较宽(如 Claude Opus 4.6 p50 估计 718.8 min,CI 未在此文件收录)"
+  ],
+  "current_answer": {
+    "text": "是——METR TH1.1 拟合 2023 年以来 50% 时长每 ~129 天翻倍,最新点位 Claude Mythos early preview (2026-04) p50 已达 ~17.4 小时,但已超出 16 小时可靠测量上限",
+    "claim_type": "事实"
+  }
+}

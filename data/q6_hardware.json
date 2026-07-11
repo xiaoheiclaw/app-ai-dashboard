@@ -1,0 +1,72 @@
+{
+  "as_of": "2026-07-11",
+  "question": "模型范式正把硬件需求推向哪?",
+  "sources": [
+    "SemiAnalysis — AI Value Capture / InferenceMAX(InferenceX) https://newsletter.semianalysis.com/p/inferencemax-open-source-inference / https://inferencex.semianalysis.com/",
+    "Google I/O 2026 keynote (Sundar Pichai) https://blog.google/innovation-and-ai/sundar-pichai-io-2026/",
+    "Epoch AI — AI chip component cost shares https://epoch.ai/data-insights/ai-chip-component-cost-shares",
+    "Epoch AI (Substack) — Is a compute crunch coming? https://epochai.substack.com/p/is-a-compute-crunch-coming",
+    "SemiAnalysis / CLSA via cryptobriefing https://cryptobriefing.com/memory-share-hyperscaler-capex-2027/",
+    "NVIDIA Technical Blog — Blackwell InferenceMAX / NVFP4 KV cache https://developer.nvidia.com/blog/nvidia-blackwell-leads-on-new-semianalysis-inferencemax-benchmarks/ / https://developer.nvidia.com/blog/optimizing-inference-for-long-context-and-large-batch-sizes-with-nvfp4-kv-cache/",
+    "LMSYS/SGLang — GB300 NVL72 InferenceX v2 https://www.lmsys.org/blog/2026-02-20-gb300-inferencex/",
+    "Global X — Memory Is the New Bottleneck https://www.globalxetfs.com/articles/memory-is-the-new-bottleneck-in-ai-semiconductors",
+    "Gartner 2026-03 enterprise token consumption (via silicondata) https://www.silicondata.com/blog/llm-cost-per-token",
+    "arXiv 2604.22750 — Token Consumption in Agentic Coding Tasks https://arxiv.org/abs/2604.22750"
+  ],
+  "indicators": [
+    {
+      "name": "token intensity(每任务 token 数)",
+      "value_or_trend": "急剧上升:Google 全平台月处理 3.2 quadrillion tokens(2026-05 I/O),一年 7x(480T→3,200T);Gartner 称企业 token 消耗自 2025-01 起增 13x;agentic 任务比单轮 chat 高 5-30x,agentic coding 比 code chat 高 ~1000x(input 端为主,arXiv 2604.22750)",
+      "claim_type": "事实(各为自报/研究数据,Google 数字未经独立审计)",
+      "source": "Google I/O 2026 keynote; Gartner 2026-03; arXiv 2604.22750"
+    },
+    {
+      "name": "推理 vs 训练算力占比",
+      "value_or_trend": "推理侧成为主导:Epoch(基于 SemiAnalysis InferenceX 数据)估全球推理容量每年 3x+;分析师普遍预期 2030 推理占总 AI 算力 ~75%;SemiAnalysis 称推理毛利率数月内从 <40% 升至 >70%,agentic 多轮负载(长输入、高 cache 命中)是增量主体。训练未消失但预训练轴放缓,RL 后训练算力快速上量(o1→o3、Grok3→Grok4 各 >10x)",
+      "claim_type": "推理(方向由多源事实支撑,精确占比为外推)",
+      "source": "Epoch AI substack; SemiAnalysis AI Value Capture; digitalapplied RL post-training 2026"
+    },
+    {
+      "name": "内存占 AI capex 比重",
+      "value_or_trend": "~30-35%(2026,SemiAnalysis;2023-24 仅 ~8%),CLSA 预计 2027 达 ~48%;芯片组件口径下 memory 占 AI 芯片组件成本 52%→63%(2024Q1→2025Q4,Epoch);HBM 市场 2025 ~$35B→2026 ~$55-58B,三大厂 2026 产能售罄",
+      "claim_type": "事实(卖方/研究机构估算,口径不同数字有带宽)",
+      "source": "SemiAnalysis/CLSA via cryptobriefing; Epoch AI component cost shares; TrendForce/BofA via Global X"
+    }
+  ],
+  "paradigm_map": [
+    {
+      "paradigm": "推理时算力/agentic 多轮(reasoning + agents)",
+      "hardware_effect": "推向推理专用大规模 scale-up 域:GB200/GB300 NVL72 机架级 NVLink、prefill/decode 分离、高 HBM 带宽;token 产能成为核心商品",
+      "evidence": "InferenceMAX v1:Blackwell 对 Hopper 15x 性能、token 单位成本降 5x(gpt-oss-120b);InferenceX v2:GB300 NVL72 对 H200 达 25x(SGLang);GB200 NVL72 FP4 每 MW token 产出比 H200 FP8 高 ~8x",
+      "claim_type": "事实"
+    },
+    {
+      "paradigm": "长上下文(long context)",
+      "hardware_effect": "推向 HBM 容量与带宽:KV cache 随上下文线性膨胀吃掉显存,催生 FP8/NVFP4 KV cache、KV offload(Dynamo)、分层缓存;直接放大 HBM 需求",
+      "evidence": "NVIDIA 官方将 NVFP4 扩展到 KV cache 以省 HBM/带宽,称长上下文+多 agent 是主要受益场景;HBM 占加速器 BOM 30-40%+,B200 八颗 HBM3e 成本超逻辑 die",
+      "claim_type": "事实"
+    },
+    {
+      "paradigm": "MoE(稀疏专家)",
+      "hardware_effect": "推向内存容量 + scale-up 互联:权重大但激活稀疏 → 需大显存池装专家 + 宽 expert-parallel 通信(NVLink/大互联域),弱化纯 FLOPs 竞争",
+      "evidence": "SGLang 在 GB200 NVL72 用 NVFP4 MoE + PD 分离 expert parallelism 服 DeepSeek R1 达 26k in/13k out tok/s/GPU;NVFP4 专家权重腾出显存给更大 KV cache",
+      "claim_type": "事实"
+    },
+    {
+      "paradigm": "FP4/低精度(NVFP4/MXFP4)",
+      "hardware_effect": "推向新一代原生 FP4 硬件(Blackwell/Rubin),拉开与 Hopper/旧卡代差,缩短有效经济寿命;前沿 MoE 开始原生 4-bit 训练专家",
+      "evidence": "NVFP4 已覆盖 W4A4 训练+推理、MoE 专家、KV cache、attention(NVIDIA);InferenceX 新增 FP4 模型质量 evals(MATH-500/GPQA)追踪精度代价;NVFP4 KV 需 Blackwell 硬件",
+      "claim_type": "事实"
+    },
+    {
+      "paradigm": "预训练放缓 → RL 后训练接棒",
+      "hardware_effect": "训练需求不塌但结构变化:RL rollout 生成为主 → 训练集群与推理集群同构化(推理型硬件通吃),进一步利好推理优化芯片",
+      "evidence": "RL 算力 o1→o3、Grok3→Grok4 各 >10x;ScaleRL 等研究称 RL 是各前沿实验室主要 scaling 轴;RL 大头开销是 rollout(即推理)",
+      "claim_type": "推理"
+    }
+  ],
+  "current_answer": {
+    "text": "范式(agentic 推理时算力 + 长上下文 + MoE + FP4)正把硬件需求从'训练 FLOPs'整体推向'推理 token 产能',瓶颈从逻辑芯片转移到内存(HBM/DRAM,已占 hyperscaler capex ~30%、且 2026 售罄)与机架级 scale-up 互联,同时 FP4 代差在压缩旧硬件的经济寿命。",
+    "claim_type": "推理"
+  }
+}

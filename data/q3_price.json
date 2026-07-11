@@ -1,0 +1,255 @@
+{
+  "as_of": "2026-07-11",
+  "question": "智能单价降多快?",
+  "sources": [
+    {
+      "name": "Artificial Analysis — LLM Leaderboard (页面嵌入完整数据集, 572 模型, 2026-07-11 抓取)",
+      "url": "https://artificialanalysis.ai/leaderboards/models",
+      "note": "intelligence_index = AA Intelligence Index v4.1(重新基线, 不可与 v4.0 分数跨版本比较); 价格 = AA 挂牌 blended 价, input:output = 3:1, 不含 cache 折扣, USD/1M tokens"
+    },
+    {
+      "name": "Artificial Analysis — Models 对比页",
+      "url": "https://artificialanalysis.ai/models"
+    },
+    {
+      "name": "Artificial Analysis — Intelligence Index 方法论",
+      "url": "https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index"
+    }
+  ],
+  "scatter": [
+    {
+      "model": "Claude Fable 5 (Adaptive Reasoning, Max Effort, Opus 4.8 Fallback)",
+      "vendor": "Anthropic",
+      "intelligence_index": 59.9,
+      "price_usd_per_m_tokens_blended": 20,
+      "open_weights": false,
+      "release_date": "2026-06-09"
+    },
+    {
+      "model": "GPT-5.6 Sol (max)",
+      "vendor": "OpenAI",
+      "intelligence_index": 58.9,
+      "price_usd_per_m_tokens_blended": 11.25,
+      "open_weights": false,
+      "release_date": "2026-07-09"
+    },
+    {
+      "model": "GPT-5.6 Terra (max)",
+      "vendor": "OpenAI",
+      "intelligence_index": 55.0,
+      "price_usd_per_m_tokens_blended": 5.625,
+      "open_weights": false,
+      "release_date": "2026-07-09"
+    },
+    {
+      "model": "Claude Opus 4.8 (Adaptive Reasoning, Max Effort)",
+      "vendor": "Anthropic",
+      "intelligence_index": 55.7,
+      "price_usd_per_m_tokens_blended": 10,
+      "open_weights": false,
+      "release_date": "2026-05-28"
+    },
+    {
+      "model": "Grok 4.5 (high)",
+      "vendor": "SpaceXAI",
+      "intelligence_index": 53.8,
+      "price_usd_per_m_tokens_blended": 3,
+      "open_weights": false,
+      "release_date": "2026-07-08"
+    },
+    {
+      "model": "Claude Sonnet 5 (Adaptive Reasoning, Max Effort)",
+      "vendor": "Anthropic",
+      "intelligence_index": 53.4,
+      "price_usd_per_m_tokens_blended": 4,
+      "open_weights": false,
+      "release_date": "2026-06-30"
+    },
+    {
+      "model": "GPT-5.6 Luna (max)",
+      "vendor": "OpenAI",
+      "intelligence_index": 51.2,
+      "price_usd_per_m_tokens_blended": 2.25,
+      "open_weights": false,
+      "release_date": "2026-07-09"
+    },
+    {
+      "model": "GLM-5.2 (max)",
+      "vendor": "Z AI",
+      "intelligence_index": 51.1,
+      "price_usd_per_m_tokens_blended": 2.15,
+      "open_weights": true,
+      "release_date": "2026-06-16"
+    },
+    {
+      "model": "Muse Spark 1.1 (xhigh)",
+      "vendor": "Meta",
+      "intelligence_index": 50.6,
+      "price_usd_per_m_tokens_blended": 2,
+      "open_weights": false,
+      "release_date": "2026-07-09"
+    },
+    {
+      "model": "Gemini 3.5 Flash (high)",
+      "vendor": "Google",
+      "intelligence_index": 50.2,
+      "price_usd_per_m_tokens_blended": 3.375,
+      "open_weights": false,
+      "release_date": "2026-05-19"
+    },
+    {
+      "model": "Gemini 3.1 Pro Preview",
+      "vendor": "Google",
+      "intelligence_index": 46.5,
+      "price_usd_per_m_tokens_blended": 4.5,
+      "open_weights": false,
+      "release_date": "2026-02-19"
+    },
+    {
+      "model": "Qwen3.7 Max",
+      "vendor": "Alibaba",
+      "intelligence_index": 46.0,
+      "price_usd_per_m_tokens_blended": 3.75,
+      "open_weights": false,
+      "release_date": "2026-05-19"
+    },
+    {
+      "model": "MiniMax-M3",
+      "vendor": "MiniMax",
+      "intelligence_index": 44.4,
+      "price_usd_per_m_tokens_blended": 0.525,
+      "open_weights": true,
+      "release_date": "2026-06-01"
+    },
+    {
+      "model": "DeepSeek V4 Pro (Reasoning, Max Effort)",
+      "vendor": "DeepSeek",
+      "intelligence_index": 44.3,
+      "price_usd_per_m_tokens_blended": 0.544,
+      "open_weights": true,
+      "release_date": "2026-04-24"
+    },
+    {
+      "model": "Kimi K2.6",
+      "vendor": "Kimi",
+      "intelligence_index": 44.2,
+      "price_usd_per_m_tokens_blended": 1.712,
+      "open_weights": true,
+      "release_date": "2026-04-20"
+    },
+    {
+      "model": "MiMo-V2.5-Pro",
+      "vendor": "Xiaomi",
+      "intelligence_index": 42.2,
+      "price_usd_per_m_tokens_blended": 0.544,
+      "open_weights": true,
+      "release_date": "2026-04-22"
+    },
+    {
+      "model": "Nex-N2-Pro",
+      "vendor": "Nex AGI",
+      "intelligence_index": 41.0,
+      "price_usd_per_m_tokens_blended": 1,
+      "open_weights": true,
+      "release_date": "2026-06-02"
+    },
+    {
+      "model": "DeepSeek V4 Flash (Reasoning, Max Effort)",
+      "vendor": "DeepSeek",
+      "intelligence_index": 40.3,
+      "price_usd_per_m_tokens_blended": 0.175,
+      "open_weights": true,
+      "release_date": "2026-04-24"
+    }
+  ],
+  "tier_decline": [
+    {
+      "tier": "II≥40 档(≈Claude Opus 4.5 首发智能, 当前次前沿)",
+      "points": [
+        {
+          "date": "2025-11",
+          "model": "Claude Opus 4.5 (Reasoning)",
+          "price_usd_per_m_tokens": 10,
+          "intelligence_index": 40.8,
+          "ii_estimated": true
+        },
+        {
+          "date": "2025-12",
+          "model": "GPT-5.2 Codex (xhigh)",
+          "price_usd_per_m_tokens": 4.812,
+          "intelligence_index": 40.1,
+          "ii_estimated": true
+        },
+        {
+          "date": "2026-02",
+          "model": "Gemini 3.1 Pro Preview",
+          "price_usd_per_m_tokens": 4.5,
+          "intelligence_index": 46.5
+        },
+        {
+          "date": "2026-03",
+          "model": "MiMo-V2-Pro",
+          "price_usd_per_m_tokens": 1.5,
+          "intelligence_index": 40.3,
+          "ii_estimated": true
+        },
+        {
+          "date": "2026-04",
+          "model": "MiMo-V2.5-Pro",
+          "price_usd_per_m_tokens": 0.544,
+          "intelligence_index": 42.2
+        },
+        {
+          "date": "2026-04",
+          "model": "DeepSeek V4 Flash (Reasoning, Max Effort)",
+          "price_usd_per_m_tokens": 0.175,
+          "intelligence_index": 40.3
+        }
+      ],
+      "decline_note": "同档最低挂牌价 5 个月 $10.00 → $0.175(÷57, 月均约 -55%, 年化 >99%)。口径: AA 当前挂牌价 × 模型发布日期(近似发布价, 老模型如有后续降价则低估降幅); ii_estimated=true 的点为 AA v4.1 估算分"
+    },
+    {
+      "tier": "II≥30 档(≈o3 / GPT-5 mini 智能)",
+      "points": [
+        {
+          "date": "2025-04",
+          "model": "o3",
+          "price_usd_per_m_tokens": 3.5,
+          "intelligence_index": 30.4,
+          "ii_estimated": true
+        },
+        {
+          "date": "2025-08",
+          "model": "GPT-5 mini (medium)",
+          "price_usd_per_m_tokens": 0.688,
+          "intelligence_index": 30.9,
+          "ii_estimated": true
+        },
+        {
+          "date": "2025-11",
+          "model": "KAT-Coder-Pro V1",
+          "price_usd_per_m_tokens": 0.525,
+          "intelligence_index": 34.6
+        },
+        {
+          "date": "2025-12",
+          "model": "DeepSeek V3.2 (Reasoning)",
+          "price_usd_per_m_tokens": 0.315,
+          "intelligence_index": 32.0
+        },
+        {
+          "date": "2025-12",
+          "model": "MiMo-V2-Flash (Feb 2026)",
+          "price_usd_per_m_tokens": 0.15,
+          "intelligence_index": 33.2,
+          "ii_estimated": true
+        }
+      ],
+      "decline_note": "同档最低挂牌价 8 个月 $3.50 → $0.15(÷23, 年化约 -99%)。同口径 caveat 如上"
+    }
+  ],
+  "current_answer": {
+    "text": "同一智能档位的最低可得价格约每 5-8 个月降到 1/20~1/60(年化降幅 >99%), 压价主力是中国开源模型(DeepSeek V4 Flash $0.175 / MiMo $0.54 达到 II≥40); 但最前沿旗舰价格坚挺(Claude Fable 5 $20, GPT-5.6 Sol $11.25)——智能通缩发生在追赶档, 不在旗舰档。",
+    "claim_type": "事实(价格与指数为 AA 挂牌数据) + 推理(通缩速度按发布日期×当前挂牌价年化)"
+  }
+}
