@@ -35,9 +35,8 @@ function valueTicks(vals: number[], fmt: (n: number) => string) {
 }
 
 function fmtMinutes(v: number): string {
-  if (v >= 1000) return `${v / 1000}k`
-  if (v < 1) return String(v)
-  return String(v)
+  if (v >= 1000) return `${Number((v / 1000).toFixed(1))}k`
+  return String(Number(v.toFixed(2)))
 }
 
 // ── Q1: METR agent time horizon (log) ──────────────────────────────

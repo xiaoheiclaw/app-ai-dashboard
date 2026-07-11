@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import type { ModelData } from "./types"
+import { assertModelData } from "./validate"
 
 // Fetch keys → data/*.json filenames. Base is /app-ai-dashboard/ (Vite base),
 // so full URL = `${import.meta.env.BASE_URL}data/<file>.json`.
@@ -36,7 +37,8 @@ export function useModelData(): State {
       .then((results) => {
         if (cancelled) return
         const entries = keys.map((k, i) => [k, results[i]] as const)
-        setState({ status: "ready", data: Object.fromEntries(entries) as unknown as ModelData })
+        const data = assertModelData(Object.fromEntries(entries))
+        setState({ status: "ready", data })
       })
       .catch((err: unknown) => {
         if (cancelled) return

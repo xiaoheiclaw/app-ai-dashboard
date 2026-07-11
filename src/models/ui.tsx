@@ -15,7 +15,8 @@ function sourceHref(s: SourceRef): { url: string; name: string } {
   if (typeof s === "string") {
     // string form may be "Name url" or a bare url; extract first http(s) token
     const m = s.match(/https?:\/\/\S+/)
-    const url = m ? m[0] : s
+    // trailing CJK/ASCII punctuation gets swallowed by \S+; strip it back off
+    const url = m ? m[0].replace(/[),，。）、；;]+$/, "") : s
     const name = m ? s.slice(0, m.index).trim().replace(/[（(]$/, "") || url : s
     return { url, name }
   }

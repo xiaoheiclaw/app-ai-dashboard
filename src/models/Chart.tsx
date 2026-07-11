@@ -70,21 +70,46 @@ export function Chart({
   const iw = W - PAD.l - PAD.r
   const ih = H - PAD.t - PAD.b
   const allPts = series.flatMap((s) => s.points)
-  if (allPts.length === 0) return null
-
-  const [xMin, xMax] = extent(allPts.map((p) => p.x))
-  const yValsRaw = allPts.map((p) => p.y).concat(annotations.map((a) => a.y))
-  let [yMin, yMax] = yDomain ?? extent(yValsRaw)
-  if (yScale === "log") {
-    yMin = Math.max(yMin, Math.min(...allPts.map((p) => p.y)))
-    if (yMin <= 0) yMin = Math.min(...allPts.filter((p) => p.y > 0).map((p) => p.y))
+  // log axis can only represent y > 0; drop non-positive points from the domain
+  // (and from rendering, via visiblePoints below)
+  const isLog = yScale === "log"
+  const usablePts = isLog ? allPts.filter((p) => p.y > 0) : allPts
+  if (usablePts.length === 0) {
+    return (
+      <svg className="chart-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title}>
+        <text x={W / 2} y={H / 2} className="chart-axis-label" textAnchor="middle">
+          无可用数据
+        </text>
+      </svg>
+    )
   }
-  // pad linear domain a touch so points don't sit on the frame
-  if (yScale === "linear" && !yDomain) {
-    const pad = (yMax - yMin) * 0.08 || 1
+
+  const [xMin, xMax] = extent(usablePts.map((p) => p.x))
+  const annoY = annotations.map((a) => a.y).filter((y) => !isLog || y > 0)
+  let [yMin, yMax] = yDomain ?? extent(usablePts.map((p) => p.y).concat(annoY))
+  if (isLog && yMin <= 0) {
+    yMin = Math.min(...usablePts.map((p) => p.y)) // guaranteed > 0
+  }
+  // zero-span domain (single value, or equal explicit yDomain) → expand so
+  // Math.log10(hi)-Math.log10(lo) / (yMax-yMin) never divides by zero
+  if (yMin === yMax) {
+    if (isLog) {
+      yMin = yMin / 10
+      yMax = yMax * 10
+    } else {
+      const pad = Math.abs(yMin) * 0.08 || 1
+      yMin -= pad
+      yMax += pad
+    }
+  } else if (yScale === "linear" && !yDomain) {
+    // pad linear domain a touch so points don't sit on the frame
+    const pad = (yMax - yMin) * 0.08
     yMin -= pad
     yMax += pad
   }
+
+  // points actually drawn (log drops non-positive)
+  const visiblePoints = (s: ChartSeries): Pt[] => (isLog ? s.points.filter((p) => p.y > 0) : s.points)
 
   const sx = (x: number) => PAD.l + (xMax === xMin ? 0.5 : (x - xMin) / (xMax - xMin)) * iw
   const sy = (y: number) => {
@@ -100,7 +125,7 @@ export function Chart({
   const fmtY = yTickFormat ?? ((v: number) => String(v))
 
   function pathFor(s: ChartSeries): string {
-    const pts = s.points
+    const pts = visiblePoints(s)
     if (pts.length === 0) return ""
     let d = `M ${sx(pts[0].x).toFixed(1)} ${sy(pts[0].y).toFixed(1)}`
     for (let i = 1; i < pts.length; i++) {
@@ -173,7 +198,7 @@ export function Chart({
         ),
       )}
       {series.map((s) =>
-        s.points.map((p, i) => (
+        visiblePoints(s).map((p, i) => (
           <circle
             key={`${s.id}-${i}`}
             cx={sx(p.x)}

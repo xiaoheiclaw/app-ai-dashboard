@@ -8,9 +8,15 @@ import { resolve } from "node:path"
 // This plugin (a) serves those files in `vite dev` and (b) copies them
 // into `dist/data/` on build, so no second copy of the data lives in the tree.
 function repoData(): Plugin {
-  const dataDir = resolve(process.cwd(), "data")
+  let dataDir = resolve(process.cwd(), "data")
+  let buildDataDir = resolve(process.cwd(), "dist", "data")
   return {
     name: "repo-data",
+    configResolved(config) {
+      // honor Vite's root / build.outDir contract instead of hardcoding cwd+dist
+      dataDir = resolve(config.root, "data")
+      buildDataDir = resolve(config.root, config.build.outDir, "data")
+    },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const match = req.url?.match(/\/data\/([\w.-]+\.json)(?:\?.*)?$/)
@@ -25,11 +31,10 @@ function repoData(): Plugin {
       })
     },
     closeBundle() {
-      const outDir = resolve(process.cwd(), "dist", "data")
-      mkdirSync(outDir, { recursive: true })
+      mkdirSync(buildDataDir, { recursive: true })
       for (const file of readdirSync(dataDir)) {
         if (file.endsWith(".json")) {
-          copyFileSync(resolve(dataDir, file), resolve(outDir, file))
+          copyFileSync(resolve(dataDir, file), resolve(buildDataDir, file))
         }
       }
     },
