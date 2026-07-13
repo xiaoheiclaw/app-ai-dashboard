@@ -190,19 +190,22 @@ export function Chart({
         )
       })}
       {/* series */}
-      {series.map((s) =>
-        s.kind === "scatter" ? null : (
+      {series.map((s) => {
+        if (s.kind === "scatter") return null
+        const d = pathFor(s)
+        if (!d) return null // no visible points → skip empty <path>
+        return (
           <path
             key={s.id}
-            d={pathFor(s)}
+            d={d}
             fill="none"
             stroke={s.color}
             strokeWidth={1.8}
             strokeDasharray={s.dashed ? "5 4" : undefined}
             strokeLinejoin="round"
           />
-        ),
-      )}
+        )
+      })}
       {series.map((s) =>
         visiblePoints(s).map((p, i) => (
           <circle

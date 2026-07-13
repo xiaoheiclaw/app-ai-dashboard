@@ -221,20 +221,23 @@ function Q4({ d }: { d: ModelData["q4"] }) {
         <strong>为何不画曲线:</strong> {d.why_no_curve}
       </p>
       <div className="reli-cards">
-        {d.cards.map((c, i) => (
-          <div className="reli-card" key={i}>
-            <div className="reli-card-head">
-              <ClaimBadge claimType={c.claim_type} />
-              <span className="reli-claim">{c.claim}</span>
+        {d.cards.map((c, i) => {
+          const href = safeHttpUrl(c.source)
+          return (
+            <div className="reli-card" key={i}>
+              <div className="reli-card-head">
+                <ClaimBadge claimType={c.claim_type} />
+                <span className="reli-claim">{c.claim}</span>
+              </div>
+              <p className="reli-evidence">{c.evidence}</p>
+              {href ? (
+                <a className="reli-src" href={href} target="_blank" rel="noreferrer noopener">
+                  来源 ↗
+                </a>
+              ) : null}
             </div>
-            <p className="reli-evidence">{c.evidence}</p>
-            {safeHttpUrl(c.source) ? (
-              <a className="reli-src" href={safeHttpUrl(c.source)!} target="_blank" rel="noreferrer noopener">
-                来源 ↗
-              </a>
-            ) : null}
-          </div>
-        ))}
+          )
+        })}
       </div>
       <Sources sources={d.sources} />
     </QuestionBlock>
@@ -373,10 +376,16 @@ export function ModelsTab() {
   }
 
   const d = state.data
+  // each JSON carries its own as_of; report the real range instead of trusting
+  // q1, so updating one dataset can't silently misreport whole-page freshness
+  const asOfs = [d.q1, d.q2, d.q3, d.q4, d.q5cap, d.q5use, d.q6, d.debates].map((x) => x.as_of)
+  const minAsOf = asOfs.reduce((a, b) => (a < b ? a : b))
+  const maxAsOf = asOfs.reduce((a, b) => (a > b ? a : b))
+  const asOfLabel = minAsOf === maxAsOf ? `数据截至 ${maxAsOf}` : `数据截至 ${minAsOf} – ${maxAsOf}（各数据集时点不一）`
   return (
     <div className="models-tab">
       <p className="models-intro">
-        六个常青问题追踪模型进展(数据截至 {d.q1.as_of}),下方争论块记录尚未收敛的关键分歧。
+        六个常青问题追踪模型进展({asOfLabel}),下方争论块记录尚未收敛的关键分歧。
       </p>
       <Q1 d={d.q1} />
       <Q2 d={d.q2} />

@@ -17,6 +17,21 @@ function isNum(v: unknown): v is number {
 function isBool(v: unknown): v is boolean {
   return typeof v === "boolean"
 }
+// "YYYY-MM" or "YYYY-MM-DD" with a real month (1-12) / day (1-31); these feed
+// monthIndex() → chart x coords, so a bad value like "2026-Q3" must be rejected
+// at load, not silently become NaN mid-render.
+function isDateLike(v: unknown): boolean {
+  if (!isStr(v)) return false
+  const m = v.match(/^(\d{4})-(\d{2})(?:-(\d{2}))?$/)
+  if (!m) return false
+  const month = Number(m[2])
+  if (month < 1 || month > 12) return false
+  if (m[3] !== undefined) {
+    const day = Number(m[3])
+    if (day < 1 || day > 31) return false
+  }
+  return true
+}
 // array of strings (rendered directly as React children)
 function strArr(v: unknown): boolean {
   return Array.isArray(v) && v.every(isStr)
@@ -48,46 +63,53 @@ const CHECKS: Record<keyof ModelData, (v: unknown) => boolean> = {
   q1: (v) =>
     str(v, "as_of") &&
     str(v, "question") &&
-    every(v, "points", (p) => isObj(p) && isStr(p.model) && isStr(p.date) && isNum(p.p50_horizon_minutes) && isNum(p.p80_horizon_minutes)) &&
+    every(v, "points", (p) => isObj(p) && isStr(p.model) && isDateLike(p.date) && isNum(p.p50_horizon_minutes) && isNum(p.p80_horizon_minutes)) &&
     isNum((v as Record<string, unknown>).doubling_time_days) &&
     strArr((v as Record<string, unknown>).caveats) &&
     sourcesOk(v) &&
     okAnswer(v),
   q2: (v) =>
+    str(v, "as_of") &&
     str(v, "question") &&
     str(v, "index_name") &&
     str(v, "index_notes") &&
-    every(v, "frontier_points", (p) => isObj(p) && isStr(p.model) && isStr(p.date) && isNum(p.score)) &&
+    every(v, "frontier_points", (p) => isObj(p) && isStr(p.model) && isDateLike(p.date) && isNum(p.score)) &&
     sourcesOk(v) &&
     okAnswer(v),
   q3: (v) =>
+    str(v, "as_of") &&
     str(v, "question") &&
     every(v, "scatter", (s) => isObj(s) && isStr(s.model) && isNum(s.intelligence_index) && isNum(s.price_usd_per_m_tokens_blended) && isBool(s.open_weights)) &&
-    every(v, "tier_decline", (t) => isObj(t) && isStr(t.tier) && Array.isArray(t.points) && (t.points as unknown[]).every((p) => isObj(p) && isStr(p.model) && isStr(p.date) && isNum(p.price_usd_per_m_tokens))) &&
+    every(v, "tier_decline", (t) => isObj(t) && isStr(t.tier) && Array.isArray(t.points) && (t.points as unknown[]).every((p) => isObj(p) && isStr(p.model) && isDateLike(p.date) && isNum(p.price_usd_per_m_tokens))) &&
     sourcesOk(v) &&
     okAnswer(v),
   q4: (v) =>
+    str(v, "as_of") &&
     str(v, "question") &&
     every(v, "cards", (c) => isObj(c) && isStr(c.claim) && isStr(c.evidence) && isStr(c.claim_type) && isStr(c.source)) &&
     str(v, "why_no_curve") &&
     sourcesOk(v) &&
     okAnswer(v),
   q5cap: (v) =>
-    every(v, "lag_series", (p) => isObj(p) && isStr(p.date) && isNum(p.lag_months)) &&
+    str(v, "as_of") &&
+    every(v, "lag_series", (p) => isObj(p) && isDateLike(p.date) && isNum(p.lag_months)) &&
     sourcesOk(v) &&
     okAnswer(v),
   q5use: (v) =>
-    every(v, "share_series", (p) => isObj(p) && isStr(p.month) && isNum(p.cn_model_share_pct)) &&
+    str(v, "as_of") &&
+    every(v, "share_series", (p) => isObj(p) && isDateLike(p.month) && isNum(p.cn_model_share_pct)) &&
     str(v, "caveat") &&
     sourcesOk(v) &&
     okAnswer(v),
   q6: (v) =>
+    str(v, "as_of") &&
     str(v, "question") &&
     every(v, "indicators", (i) => isObj(i) && isStr(i.name) && isStr(i.value_or_trend) && isStr(i.claim_type)) &&
     every(v, "paradigm_map", (r) => isObj(r) && isStr(r.paradigm) && isStr(r.hardware_effect) && isStr(r.evidence) && isStr(r.claim_type)) &&
     sourcesOk(v) &&
     okAnswer(v),
   debates: (v) =>
+    str(v, "as_of") &&
     every(v, "debates", (d) => {
       if (!isObj(d)) return false
       const sideOk = (s: unknown) => isObj(s) && isStr(s.position) && strArr(s.evidence)
