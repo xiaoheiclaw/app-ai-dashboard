@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { RELEASES, MILESTONES } from "./data"
+import { ModelsTab } from "./models/ModelsTab"
 
 // 骨架版:三 tab 壳 + 总览横幅占位。板块内容按实施顺序逐步填充:
 //   1. 模型进展(6 问曲线 + 事件层 + 争论块)
@@ -52,12 +52,7 @@ export default function App() {
       </nav>
 
       <main className="content">
-        {tab === "models" && (
-          <Placeholder
-            title="模型进展"
-            note={`6 个常青问题曲线建设中。事件层数据已就位:${RELEASES.length} 条发布 + ${MILESTONES.length} 个技术拐点(核实至 2026-07-06)。`}
-          />
-        )}
+        {tab === "models" && <ModelsTab />}
         {tab === "chain" && (
           <Placeholder
             title="产业链瓶颈"
