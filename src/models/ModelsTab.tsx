@@ -25,6 +25,21 @@ function yearTicks(idxs: number[]): { value: number; label: string }[] {
   for (let y = Math.ceil(min / 12); y * 12 <= max; y++) {
     ticks.push({ value: y * 12, label: String(y) })
   }
+  // range wholly within a year (no Jan boundary crossed) → fall back to
+  // first/last month labels so the x-axis is never blank
+  if (ticks.length === 0) {
+    const fmt = (idx: number) => {
+      const y = Math.floor(idx / 12)
+      const m = Math.round(idx % 12) + 1
+      return `${y}-${String(m).padStart(2, "0")}`
+    }
+    return min === max
+      ? [{ value: min, label: fmt(min) }]
+      : [
+          { value: min, label: fmt(min) },
+          { value: max, label: fmt(max) },
+        ]
+  }
   return ticks
 }
 

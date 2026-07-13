@@ -112,6 +112,7 @@ body {
 .claim-fact { background: var(--claim-fact); }
 .claim-reason { background: var(--claim-reason); color: #fff; }
 .claim-speculation { background: var(--claim-spec); }
+.claim-unknown { background: var(--border); color: var(--muted); }
 
 .chart-svg { width: 100%; height: auto; display: block; margin: 6px 0; }
 .chart-grid { stroke: var(--grid); stroke-width: 1; }

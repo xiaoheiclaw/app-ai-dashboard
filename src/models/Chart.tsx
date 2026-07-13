@@ -74,34 +74,37 @@ export function Chart({
   // (and from rendering, via visiblePoints below)
   const isLog = yScale === "log"
   const usablePts = isLog ? allPts.filter((p) => p.y > 0) : allPts
-  if (usablePts.length === 0) {
-    return (
-      <svg className="chart-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title}>
-        <text x={W / 2} y={H / 2} className="chart-axis-label" textAnchor="middle">
-          无可用数据
-        </text>
-      </svg>
-    )
-  }
+  const emptyChart = (
+    <svg className="chart-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title}>
+      <text x={W / 2} y={H / 2} className="chart-axis-label" textAnchor="middle">
+        无可用数据
+      </text>
+    </svg>
+  )
+  if (usablePts.length === 0) return emptyChart
 
   const [xMin, xMax] = extent(usablePts.map((p) => p.x))
   const annoY = annotations.map((a) => a.y).filter((y) => !isLog || y > 0)
   let [yMin, yMax] = yDomain ?? extent(usablePts.map((p) => p.y).concat(annoY))
-  if (isLog && yMin <= 0) {
-    yMin = Math.min(...usablePts.map((p) => p.y)) // guaranteed > 0
-  }
-  // zero-span domain (single value, or equal explicit yDomain) → expand so
-  // Math.log10(hi)-Math.log10(lo) / (yMax-yMin) never divides by zero
-  if (yMin === yMax) {
-    if (isLog) {
+
+  if (isLog) {
+    // log axis needs a strictly positive, ascending domain regardless of what
+    // the caller passed (e.g. [0,0], [-1,1]); fall back to the point extent
+    // and expand a zero/reversed span by an order of magnitude each side
+    const ys = usablePts.map((p) => p.y) // all > 0
+    if (!(yMax > 0)) yMax = Math.max(...ys)
+    if (!(yMin > 0)) yMin = Math.min(...ys)
+    if (yMin >= yMax) {
       yMin = yMin / 10
       yMax = yMax * 10
-    } else {
-      const pad = Math.abs(yMin) * 0.08 || 1
-      yMin -= pad
-      yMax += pad
     }
-  } else if (yScale === "linear" && !yDomain) {
+    if (!(yMin > 0 && yMax > 0 && yMin < yMax)) return emptyChart
+  } else if (yMin === yMax) {
+    // zero-span linear domain (single value, or equal explicit yDomain)
+    const pad = Math.abs(yMin) * 0.08 || 1
+    yMin -= pad
+    yMax += pad
+  } else if (!yDomain) {
     // pad linear domain a touch so points don't sit on the frame
     const pad = (yMax - yMin) * 0.08
     yMin -= pad
