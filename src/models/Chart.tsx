@@ -127,18 +127,27 @@ export function Chart({
   const yTicks = yScale === "log" ? logTicks(yMin, yMax) : linearTicks(yMin, yMax)
   const fmtY = yTickFormat ?? ((v: number) => String(v))
 
+  // Build the path over ALL points, breaking the line into separate subpaths
+  // wherever a point is invalid for the current axis (log y <= 0). This avoids
+  // drawing a gap as a continuous trend even for callers that skip the validator.
   function pathFor(s: ChartSeries): string {
-    const pts = visiblePoints(s)
-    if (pts.length === 0) return ""
-    let d = `M ${sx(pts[0].x).toFixed(1)} ${sy(pts[0].y).toFixed(1)}`
-    for (let i = 1; i < pts.length; i++) {
-      const px = sx(pts[i].x).toFixed(1)
-      const py = sy(pts[i].y).toFixed(1)
-      if (s.kind === "step") {
-        d += ` L ${px} ${sy(pts[i - 1].y).toFixed(1)} L ${px} ${py}`
+    let d = ""
+    let prev: Pt | null = null
+    for (const p of s.points) {
+      if (isLog && !(p.y > 0)) {
+        prev = null // invalid point → break the line here
+        continue
+      }
+      const px = sx(p.x).toFixed(1)
+      const py = sy(p.y).toFixed(1)
+      if (prev === null) {
+        d += `${d ? " " : ""}M ${px} ${py}` // start a new subpath
+      } else if (s.kind === "step") {
+        d += ` L ${px} ${sy(prev.y).toFixed(1)} L ${px} ${py}`
       } else {
         d += ` L ${px} ${py}`
       }
+      prev = p
     }
     return d
   }

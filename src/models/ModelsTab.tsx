@@ -31,7 +31,7 @@ function yearTicks(idxs: number[]): { value: number; label: string }[] {
   if (ticks.length === 0) {
     const fmt = (idx: number) => {
       const y = Math.floor(idx / 12)
-      const m = Math.round(idx % 12) + 1
+      const m = Math.floor(idx % 12) + 1 // floor, not round — day fraction must not bump the month
       return `${y}-${String(m).padStart(2, "0")}`
     }
     return min === max

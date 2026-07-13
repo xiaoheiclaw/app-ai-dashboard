@@ -23,13 +23,22 @@ function repoData(): Plugin {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const match = req.url?.match(/\/data\/([\w.-]+\.json)(?:\?.*)?$/)
-        if (!match || !ALLOWED.has(match[1])) return next()
+        if (!match) return next()
+        // own EVERY /data/*.json request: non-allowlisted → 404 so Vite's static
+        // middleware can't fall through and expose repo-root draft/raw JSON
+        const file = match[1]
+        if (!ALLOWED.has(file)) {
+          res.statusCode = 404
+          res.end("Not found")
+          return
+        }
         try {
-          const body = readFileSync(resolve(dataDir, match[1]))
+          const body = readFileSync(resolve(dataDir, file))
           res.setHeader("Content-Type", "application/json; charset=utf-8")
           res.end(body)
         } catch {
-          next()
+          res.statusCode = 404
+          res.end("Not found")
         }
       })
     },

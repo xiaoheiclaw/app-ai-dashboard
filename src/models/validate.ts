@@ -22,6 +22,14 @@ function isBool(v: unknown): v is boolean {
 function isPos(v: unknown): v is number {
   return typeof v === "number" && Number.isFinite(v) && v > 0
 }
+// non-negative finite number (e.g. lag in months — never < 0)
+function isNonNeg(v: unknown): boolean {
+  return typeof v === "number" && Number.isFinite(v) && v >= 0
+}
+// a percentage share in [0, 100]
+function isPct(v: unknown): boolean {
+  return typeof v === "number" && Number.isFinite(v) && v >= 0 && v <= 100
+}
 // "YYYY-MM" or "YYYY-MM-DD" with a real, existing calendar date; these feed
 // monthIndex() → chart x coords, so "2026-Q3" / "2026-02-31" must be rejected
 // at load, not silently become NaN mid-render.
@@ -84,8 +92,14 @@ const CHECKS: Record<keyof ModelData, (v: unknown) => boolean> = {
   q1: (v) =>
     fullDate(v, "as_of") &&
     str(v, "question") &&
-    // p50/p80 are on a log axis → must be strictly positive
-    everyNonEmpty(v, "points", (p) => isObj(p) && isStr(p.model) && isDateLike(p.date) && isPos(p.p50_horizon_minutes) && isPos(p.p80_horizon_minutes)) &&
+    // p50/p80 are on a log axis → strictly positive; and the 80% success horizon
+    // is a stricter threshold than 50%, so it is always the SHORTER time (p50 >= p80)
+    everyNonEmpty(v, "points", (p) => {
+      if (!isObj(p)) return false
+      const p50 = p.p50_horizon_minutes
+      const p80 = p.p80_horizon_minutes
+      return isStr(p.model) && isDateLike(p.date) && isPos(p50) && isPos(p80) && p50 >= p80
+    }) &&
     isNum((v as Record<string, unknown>).doubling_time_days) &&
     strArr((v as Record<string, unknown>).caveats) &&
     sourcesOk(v) &&
@@ -115,12 +129,12 @@ const CHECKS: Record<keyof ModelData, (v: unknown) => boolean> = {
     okAnswer(v),
   q5cap: (v) =>
     fullDate(v, "as_of") &&
-    everyNonEmpty(v, "lag_series", (p) => isObj(p) && isDateLike(p.date) && isNum(p.lag_months)) &&
+    everyNonEmpty(v, "lag_series", (p) => isObj(p) && isDateLike(p.date) && isNonNeg(p.lag_months)) &&
     sourcesOk(v) &&
     okAnswer(v),
   q5use: (v) =>
     fullDate(v, "as_of") &&
-    everyNonEmpty(v, "share_series", (p) => isObj(p) && isDateLike(p.month) && isNum(p.cn_model_share_pct)) &&
+    everyNonEmpty(v, "share_series", (p) => isObj(p) && isDateLike(p.month) && isPct(p.cn_model_share_pct)) &&
     str(v, "caveat") &&
     sourcesOk(v) &&
     okAnswer(v),
