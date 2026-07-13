@@ -19,6 +19,7 @@ const COLORS = {
 
 // year-boundary x ticks from a set of month indices
 function yearTicks(idxs: number[]): { value: number; label: string }[] {
+  if (idxs.length === 0) return [] // defensive: empty input → no axis labels, no NaN
   const min = Math.min(...idxs)
   const max = Math.max(...idxs)
   const ticks: { value: number; label: string }[] = []
@@ -44,6 +45,7 @@ function yearTicks(idxs: number[]): { value: number; label: string }[] {
 }
 
 function valueTicks(vals: number[], fmt: (n: number) => string) {
+  if (vals.length === 0) return [] // defensive: empty input → no axis labels, no NaN
   const min = Math.min(...vals)
   const max = Math.max(...vals)
   return linearTicks(min, max).map((v) => ({ value: v, label: fmt(v) }))
@@ -108,7 +110,17 @@ function Q1({ d }: { d: ModelData["q1"] }) {
         annotations={[{ y: 960, label: ">16h 测量不可靠" }]}
         height={270}
       />
-      <p className="qblock-note">拟合翻倍时间 ≈ {d.doubling_time_days} 天。{d.caveats[0]}</p>
+      <p className="qblock-note">拟合翻倍时间 ≈ {d.doubling_time_days} 天。</p>
+      {d.caveats.length > 0 && (
+        <details className="caveats">
+          <summary>口径与 caveat ({d.caveats.length})</summary>
+          <ul>
+            {d.caveats.map((c, i) => (
+              <li key={i}>{c}</li>
+            ))}
+          </ul>
+        </details>
+      )}
       <Sources sources={d.sources} />
     </QuestionBlock>
   )

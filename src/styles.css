@@ -133,6 +133,11 @@ body {
 .sources a { color: var(--accent); font-size: 12px; text-decoration: none; word-break: break-all; }
 .sources a:hover { text-decoration: underline; }
 .source-text { color: var(--muted); font-size: 12px; word-break: break-all; }
+
+.caveats { margin-top: 8px; }
+.caveats summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+.caveats ul { margin: 8px 0 0; padding-left: 18px; }
+.caveats li { margin: 4px 0; font-size: 12px; color: var(--muted); line-height: 1.6; }
 .two-sources { display: flex; gap: 20px; flex-wrap: wrap; }
 
 /* Q4 reliability */
